@@ -1,3 +1,5 @@
+"use client";
+
 import { DottedSeparator } from "@/components/dotted-separator"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -7,15 +9,15 @@ import { FcGoogle } from "react-icons/fc"
 import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Car } from "lucide-react"
 import Link from "next/link"
 import { loginSchema } from "../schemas"
 import { useLogin } from "../api/use-login"
-import { Value } from "@radix-ui/react-select"
+import { is } from "date-fns/locale";
 
 export const SignInCard = () => {
 
-    const { mutate } = useLogin();
+    const { mutate, isPending } = useLogin();
+
     const form = useForm<z.infer<typeof loginSchema>>({
         resolver: zodResolver(loginSchema),
         defaultValues: {
@@ -50,6 +52,7 @@ export const SignInCard = () => {
                                         <Input
                                             {...field}
                                             type="email"
+                                            disabled={isPending}
                                             placeholder="Enter email address"
                                         />
                                     </FormControl>
@@ -66,6 +69,7 @@ export const SignInCard = () => {
                                         <Input
                                             {...field}
                                             type="password"
+                                            disabled={isPending}
                                             placeholder="Enter password"
                                         />
                                     </FormControl>
@@ -73,7 +77,7 @@ export const SignInCard = () => {
                                 </FormItem>
                             )}
                         />
-                        <Button disabled={false} size={"lg"} className="w-full">
+                        <Button disabled={isPending} size={"lg"} className="w-full">
                             Login
                         </Button>
                     </form>
@@ -83,7 +87,7 @@ export const SignInCard = () => {
                 <DottedSeparator />
             </div>
             <CardContent className="p-7 flex flex-col gap-y-4">
-                <Button variant="secondary" size="lg" className="w-full flex" disabled={false}> 
+                <Button variant="secondary" size="lg" className="w-full flex" disabled={isPending}> 
                     <FcGoogle 
                         className="mr-2 size-5"
                     />
