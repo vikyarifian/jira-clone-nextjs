@@ -9,25 +9,24 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Car } from "lucide-react"
 import Link from "next/link"
-
-const formSchema = z.object({
-    email: z.string().email("Invalid email address"),
-    password: z.string().min(1, "Password is required"),
-});
+import { loginSchema } from "../schemas"
+import { useLogin } from "../api/use-login"
+import { Value } from "@radix-ui/react-select"
 
 export const SignInCard = () => {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+
+    const { mutate } = useLogin();
+    const form = useForm<z.infer<typeof loginSchema>>({
+        resolver: zodResolver(loginSchema),
         defaultValues: {
             email: "",
             password: "",
         },
     });
 
-    const onSubmit = (data: z.infer<typeof formSchema>) => {
-        console.log("Form submitted with data:", data);
-        // Handle form submission logic here, e.g., API call for login
-    }
+    const onSubmit = (values: z.infer<typeof loginSchema>) => {
+        mutate({ json: values });
+    };
 
     return (
         <Card className="w-full h-full md:w-[487px] border-none shadow-none">

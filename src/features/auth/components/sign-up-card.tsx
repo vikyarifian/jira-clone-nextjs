@@ -8,16 +8,14 @@ import { FcGoogle } from "react-icons/fc"
 import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod";
-
-const formSchema = z.object({
-    name: z.string().trim().min(1, "Name is required"),
-    email: z.string().email("Invalid email address"),
-    password: z.string().min(8, "Password must be at least 8 characters").max(256, "Password must be at most 256 characters"),
-});
+import { registerSchema } from "../schemas"
+import { useRegister } from "../api/use-register"
 
 export const SignUpCard = () => {
-    const form = useForm<z.infer<typeof formSchema>>({
-            resolver: zodResolver(formSchema),
+
+    const { mutate } = useRegister(); 
+    const form = useForm<z.infer<typeof registerSchema>>({
+            resolver: zodResolver(registerSchema),
             defaultValues: {
                 name: "",
                 email: "",
@@ -25,9 +23,8 @@ export const SignUpCard = () => {
             },
         });
     
-        const onSubmit = (data: z.infer<typeof formSchema>) => {
-            console.log("Form submitted with data:", data);
-            // Handle form submission logic here, e.g., API call for login
+        const onSubmit = (values: z.infer<typeof registerSchema>) => {
+            mutate({ json: values });
         }
     
     return (
@@ -101,7 +98,7 @@ export const SignUpCard = () => {
                             )}
                         />
                         <Button disabled={false} size={"lg"} className="w-full">
-                            Login
+                            Register
                         </Button>
                     </form>
                 </Form>
