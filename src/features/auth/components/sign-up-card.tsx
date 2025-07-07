@@ -1,3 +1,5 @@
+"use client";
+
 import { DottedSeparator } from "@/components/dotted-separator"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,10 +12,12 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "../schemas"
 import { useRegister } from "../api/use-register"
+import { is } from "date-fns/locale";
 
 export const SignUpCard = () => {
 
-    const { mutate } = useRegister(); 
+    const { mutate, isPending } = useRegister(); 
+
     const form = useForm<z.infer<typeof registerSchema>>({
             resolver: zodResolver(registerSchema),
             defaultValues: {
@@ -58,6 +62,7 @@ export const SignUpCard = () => {
                                         <Input
                                             {...field}
                                             type="text"
+                                            disabled={isPending}
                                             placeholder="Enter your name"
                                         />
                                     </FormControl>
@@ -74,6 +79,7 @@ export const SignUpCard = () => {
                                         <Input
                                             {...field}
                                             type="email"
+                                            disabled={isPending}
                                             placeholder="Enter email address"
                                         />
                                     </FormControl>
@@ -90,6 +96,7 @@ export const SignUpCard = () => {
                                         <Input
                                             {...field}
                                             type="password"
+                                            disabled={isPending}
                                             placeholder="Enter password"
                                         />
                                     </FormControl>
@@ -97,7 +104,7 @@ export const SignUpCard = () => {
                                 </FormItem>
                             )}
                         />
-                        <Button disabled={false} size={"lg"} className="w-full">
+                        <Button disabled={isPending} size={"lg"} className="w-full">
                             Register
                         </Button>
                     </form>
@@ -107,7 +114,7 @@ export const SignUpCard = () => {
                 <DottedSeparator />
             </div>
             <CardContent className="p-7 flex flex-col gap-y-4">
-                <Button variant="secondary" size="lg" className="w-full flex" disabled={false}> 
+                <Button variant="secondary" size="lg" className="w-full flex" disabled={isPending}> 
                     <FcGoogle 
                         className="mr-2 size-5"
                     />
