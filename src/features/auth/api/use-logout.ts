@@ -1,10 +1,10 @@
+import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { InferRequestType, InferResponseType } from "hono";
+import { InferResponseType } from "hono";
 import { client } from "@/lib/rpc";
 import { useRouter } from "next/navigation";
 
 type ResponseType = InferResponseType<typeof client.api.auth.logout["$post"]>;
-type RequestType = InferRequestType<typeof client.api.auth.logout["$post"]>;
 
 export const useLogout = () => {
     const router = useRouter();
@@ -13,12 +13,20 @@ export const useLogout = () => {
     const mutation = useMutation<ResponseType, Error>({
         mutationFn: async () => {
             const response = await client.api.auth.logout["$post"]();
+
+            if (!response.ok) {
+                throw new Error("Logout failed");
+            }
+
             return await response.json();
         },
         onSuccess: () => {
-            // window.location.reload();
+            toast.success("Logout successful", { style: { color: "green" } });
             router.refresh();
             queryClient.invalidateQueries({ queryKey: ["current"] });
+        },
+        onError: (error) => {
+            toast.error(`Logout failed`, { style: { color: "red" } });
         },
     });
 
