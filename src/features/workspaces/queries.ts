@@ -5,7 +5,7 @@ import { getMember } from "../members/utils";
 import { Workspace } from "./types";
 
 export const getWorkspaces = async () => {
-    try {
+    // try {
         const { databases, account } = await createSessionClient();
 
         const user = await account.get();
@@ -33,10 +33,10 @@ export const getWorkspaces = async () => {
 
         return workspaces;
         
-    } catch (error) {
-        console.error("Error fetching data:", error);
-        return { documents: [], total: 0 };
-    }
+    // } catch (error) {
+    //     console.error("Error fetching data:", error);
+    //     return { documents: [], total: 0 };
+    // }
 };
 
 interface GetWorkspaceProps {
@@ -44,7 +44,7 @@ interface GetWorkspaceProps {
 };
 
 export const getWorkspace = async ({ workspaceId }: GetWorkspaceProps) => {
-    try {
+    // try {
         const { databases, account } = await createSessionClient();
 
         const user = await account.get();
@@ -56,7 +56,7 @@ export const getWorkspace = async ({ workspaceId }: GetWorkspaceProps) => {
         });
 
         if (!member) {
-            return null;
+            throw new Error("Unauthorized");
         }
 
         const workspace = await databases.getDocument<Workspace>(
@@ -67,10 +67,10 @@ export const getWorkspace = async ({ workspaceId }: GetWorkspaceProps) => {
 
         return workspace;
         
-    } catch (error) {
-        console.error("Error fetching data:", error);
-        return null;
-    }
+    // } catch (error) {
+    //     console.error("Error fetching data:", error);
+    //     return null;
+    // }
 };
 
 interface GetWorkspaceInfoProps {
@@ -78,7 +78,7 @@ interface GetWorkspaceInfoProps {
 };
 
 export const getWorkspaceInfo = async ({ workspaceId }: GetWorkspaceInfoProps) => {
-    try {
+    // try {
         const { databases } = await createSessionClient();
 
         const workspace = await databases.getDocument<Workspace>(
@@ -91,8 +91,8 @@ export const getWorkspaceInfo = async ({ workspaceId }: GetWorkspaceInfoProps) =
             name: workspace.name,
         };
         
-    } catch (error) {
-        console.error("Error fetching data:", error);
-        return null;
-    }
+    // } catch (error) {
+    //     console.error("Error fetching data:", error);
+    //     return null;
+    // }
 };
