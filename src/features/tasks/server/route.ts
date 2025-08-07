@@ -6,8 +6,9 @@ import { zValidator } from "@hono/zod-validator";
 import { getMember } from "@/features/members/utils";
 import { createTaskSchema } from "../schemas";
 
+import { Task, TaskStatus } from "../types";
+
 import { Project } from "@/features/projects/types";
-import { TaskStatus } from "../types";
 import { DATABASE_ID, MEMBERS_ID, PROJECTS_ID, TASKS_ID } from "@/config";
 import { sessionMiddleware } from "@/lib/session-middleware";
 import { createAdminClient } from "@/lib/appwrite";
@@ -77,7 +78,7 @@ const app = new Hono()
                 query.push(Query.search("name", search));
             }
 
-            const tasks = await databases.listDocuments(
+            const tasks = await databases.listDocuments<Task>(
                 DATABASE_ID,
                 TASKS_ID,
                 query,
