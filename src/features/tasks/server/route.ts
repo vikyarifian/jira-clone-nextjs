@@ -242,7 +242,7 @@ const app = new Hono()
                 dueDate,
                 assigneeId
             } = c.req.valid("json");
-            const taskId = c.req.param("taskId");
+            const { taskId } = c.req.param();
 
             const exsitingTask = await databases.getDocument<Task>(
                 DATABASE_ID,
@@ -263,7 +263,7 @@ const app = new Hono()
             const task = await databases.updateDocument<Task>(
                 DATABASE_ID,
                 TASKS_ID,
-                ID.unique(),
+                taskId,
                 {
                     name,
                     status,
@@ -284,7 +284,7 @@ const app = new Hono()
             const databases = c.get("databases");
             const { users } = await createAdminClient();
             const taskId = c.req.param("taskId");
-
+            console.log("Fetching task with ID: " + taskId);
             const task = await databases.getDocument<Task>(
                 DATABASE_ID,
                 TASKS_ID,
@@ -296,15 +296,38 @@ const app = new Hono()
                 workspaceId: task.workspaceId,
                 userId: currentUser.$id,
             });
+
             if (!currentMember) {
                 return c.json({ error: "Unauthorized" }, 401);
             }
-            
-            if (!task) {
-                return c.json({ error: "Task not found" }, 404);
-            }
 
-            return c.json({ data: task });
+            const project = await databases.getDocument<Project>(
+                DATABASE_ID,
+                PROJECTS_ID,
+                task.projectId,
+            );
+
+            const member = await databases.getDocument(
+                DATABASE_ID,
+                MEMBERS_ID,
+                task.assigneeId,
+            );
+            
+            const user = await users.get(member.userId);
+
+            const assignee = {
+                ...member,
+                name: user.name,
+                email: user.email,
+            };
+            
+            return c.json({ 
+                data: {
+                    ...task,
+                    project,
+                    assignee,
+                } 
+            });
         }
     );
 
