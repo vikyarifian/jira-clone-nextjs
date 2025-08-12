@@ -19,11 +19,11 @@ export const useCreateWorkspace = () => {
 
             return await response.json();
         },
-        onSuccess: (data) => {
+        onSuccess: () => {
             toast.success("Workspace created successfully", { style: { color: "green" } });
             queryClient.invalidateQueries({ queryKey: ["workspaces"] });
         },
-        onError: (error) => {
+        onError: () => {
             toast.error(`Failed to create workspace`, { style: { color: "red" } });
         },
     });

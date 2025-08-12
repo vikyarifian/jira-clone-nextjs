@@ -19,11 +19,11 @@ export const useCreateProject = () => {
 
             return await response.json();
         },
-        onSuccess: (data) => {
+        onSuccess: () => {
             toast.success("Project created successfully", { style: { color: "green" } });
             queryClient.invalidateQueries({ queryKey: ["projects"] });
         },
-        onError: (error) => {
+        onError: () => {
             toast.error(`Failed to create project`, { style: { color: "red" } });
         },
     });

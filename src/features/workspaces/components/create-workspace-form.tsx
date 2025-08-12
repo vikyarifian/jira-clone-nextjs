@@ -16,7 +16,6 @@ import { useCreateWorkspace } from "../api/use-create-workspace";
 import Image from "next/image";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { ImageIcon } from "lucide-react";
-import { on } from "events";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 

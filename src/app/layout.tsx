@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 
 import { cn } from "@/lib/utils";
 import { QueryProvider } from "@/components/query-provider";
-import  { Toaster as Sonner, Toaster } from "sonner";
+import  { Toaster as Sonner } from "sonner";
 
 import "./globals.css";
 
@@ -25,7 +25,7 @@ export default function RootLayout({
         className={cn(inter.className, "antialiased min-h-screen")}
       >
         <QueryProvider>
-          <Toaster/>
+          <Sonner/>
           {children}
         </QueryProvider>          
       </body>

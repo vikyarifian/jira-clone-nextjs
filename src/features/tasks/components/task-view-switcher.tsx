@@ -17,6 +17,7 @@ import { DataTable } from "./data-table";
 import { DataFilters } from "./data-filters";
 
 import { useGetTasks } from "../api/use-get-tasks";
+import { useProjectId } from "@/features/projects/hooks/use-project-id";
 import { useTaskFilters } from "../hooks/use-task-filters";
 import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 import { useCreateTaskModal } from "../hooks/use-create-task-modal";
@@ -43,6 +44,7 @@ export const TaskViewSwitcher = ({ hideProjectFilter }: TaskViewSwitcherProps) =
     })
 
     const workspaceId = useWorkspaceId();
+    const paramProjectId = useProjectId();
     const { open } = useCreateTaskModal();
 
     const { mutate: bulkUpdate} = useBulkUpdateTask();
@@ -52,7 +54,7 @@ export const TaskViewSwitcher = ({ hideProjectFilter }: TaskViewSwitcherProps) =
         isLoading: isLoadingTasks 
     } = useGetTasks({ 
         workspaceId,
-        projectId,
+        projectId: paramProjectId || projectId,
         assigneeId,
         status,
         dueDate,

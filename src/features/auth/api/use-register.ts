@@ -21,12 +21,12 @@ export const useRegister = () => {
 
             return await response.json();
         },
-        onSuccess: (data) => {
+        onSuccess: () => {
             toast.success("Registration successful", { style: { color: "green" } });
             router.refresh();
             queryClient.invalidateQueries({ queryKey: ["current"] });
         },
-        onError: (error) => {
+        onError: () => {
             toast.error(`Registration failed`, { style: { color: "red" } });
         },
     });
