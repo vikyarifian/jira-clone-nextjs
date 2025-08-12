@@ -5,7 +5,7 @@ import { client } from "@/lib/rpc";
 
 interface UseGetProjectAnalyticsProps {
     projectId: string,
-}
+};
 
 export type ProjectAnalyticsResponseType = InferResponseType<typeof client.api.projects[":projectId"]["analytics"]["$get"], 200>;
 

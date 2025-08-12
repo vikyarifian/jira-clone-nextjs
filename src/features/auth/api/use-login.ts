@@ -21,12 +21,12 @@ export const useLogin = () => {
 
             return await response.json();
         },
-        onSuccess: (data) => {
+        onSuccess: () => {
             toast.success("Login successful", { style: { color: "green" } });
             router.refresh();
             queryClient.invalidateQueries({ queryKey: ["current"] });
         },
-        onError: (error) => {
+        onError: () => {
             toast.error(`Login failed`, { style: {color:"red"} });
         },
     });

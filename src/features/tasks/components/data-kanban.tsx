@@ -67,7 +67,6 @@ export const DataKanban = ({ data, onChange }: DataKanbanProps) => {
 
             // if there is moved task, update its status and position
             if (!movedTask) {
-                console.error("No task found to move");
                 return prevTasks;
             }
 

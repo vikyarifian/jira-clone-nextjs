@@ -19,11 +19,11 @@ export const useCreateTask = () => {
 
             return await response.json();
         },
-        onSuccess: (data) => {
+        onSuccess: () => {
             toast.success("Task created successfully", { style: { color: "green" } });
             queryClient.invalidateQueries({ queryKey: ["tasks"] });
         },
-        onError: (error) => {
+        onError: () => {
             toast.error(`Failed to create task`, { style: { color: "red" } });
         },
     });

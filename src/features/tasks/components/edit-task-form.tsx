@@ -2,12 +2,10 @@
 
 import z from "zod";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { MemberAvatar } from "@/features/members/components/member-avatar";
 import { ProjectAvatar } from "@/features/projects/components/project-avatar";
-import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 
 import { useUpdateTask } from "../api/use-update-task";
 import { createTaskSchema } from "../schemas";
@@ -49,8 +47,6 @@ interface EditTaskFormProps {
 };
 
 export const EditTaskForm = ({ onCancel, projectOptions, memberOptions, initialValues }: EditTaskFormProps) => {
-    const workspaceId = useWorkspaceId();
-    const router = useRouter();
     const { mutate, isPending } = useUpdateTask();
 
     const form = useForm<z.infer<typeof createTaskSchema>>({
