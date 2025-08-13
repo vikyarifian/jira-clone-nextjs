@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link"
 import { loginSchema } from "../schemas"
 import { useLogin } from "../api/use-login"
+import { signUpWithGoogle } from "@/lib/oauth";
 
 export const SignInCard = () => {
 
@@ -86,7 +87,13 @@ export const SignInCard = () => {
                 <DottedSeparator />
             </div>
             <CardContent className="p-7 flex flex-col gap-y-4">
-                <Button variant="secondary" size="lg" className="w-full flex" disabled={isPending}> 
+                <Button 
+                    onClick={() => signUpWithGoogle()}
+                    variant="secondary" 
+                    size="lg" 
+                    className="w-full flex" 
+                    disabled={isPending}
+                > 
                     <FcGoogle 
                         className="mr-2 size-5"
                     />

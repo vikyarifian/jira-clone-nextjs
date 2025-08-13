@@ -34,9 +34,9 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
     const form = useForm<z.infer<typeof createProjectSchema>>({
         resolver: zodResolver(createProjectSchema.omit({ workspaceId: true })),
         defaultValues: {
-            name: "",
+        name: "",
         },
-    });
+  });
 
     const onSubmit = (values: z.infer<typeof createProjectSchema>) => {
         const finalValues = {
